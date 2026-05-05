@@ -17,60 +17,45 @@ concurrency:
 jobs:
   lint:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup
         uses: ./.github/actions/setup
-
       - name: Lint files
         run: npm run lint
-
-      # Using npx for typecheck if it's a script in package.json
       - name: Typecheck files
         run: npm run typecheck
 
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup
         uses: ./.github/actions/setup
-
       - name: Run unit tests
         run: npm test -- --maxWorkers=2 --coverage
 
   build-library:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup
         uses: ./.github/actions/setup
-
       - name: Build package
         run: npm run prepare
 
   build-android:
     runs-on: ubuntu-latest
-
     env:
       TURBO_CACHE_DIR: .turbo/android
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup
         uses: ./.github/actions/setup
-
       - name: Cache turborepo for Android
         uses: actions/cache@v4
         with:
@@ -81,7 +66,9 @@ jobs:
 
       - name: Check turborepo cache for Android
         run: |
-          TURBO_CACHE_STATUS=$(node -p "($(npx turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}" --dry=json)).tasks.find(t => t.task === 'build:android').cache.status")
+          # Use a temporary file to prevent shell syntax errors if turbo fails
+          npx turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}" --dry=json > turbo_android.json || echo "{}" > turbo_android.json
+          TURBO_CACHE_STATUS=$(node -p "const fs=require('fs'); const data=JSON.parse(fs.readFileSync('turbo_android.json')); data.tasks?.find(t => t.task === 'build:android')?.cache?.status || 'MISS'")
           if [[ $TURBO_CACHE_STATUS == "HIT" ]]; then
             echo "turbo_cache_hit=1" >> $GITHUB_ENV
           fi
@@ -120,20 +107,16 @@ jobs:
 
   build-ios:
     runs-on: macos-latest
-
     env:
-      XCODE_VERSION: 16 # Corrected to a standard Xcode version string
+      XCODE_VERSION: 16
       TURBO_CACHE_DIR: .turbo/ios
       RCT_USE_RN_DEP: 1
       RCT_USE_PREBUILT_RNCORE: 1
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup
         uses: ./.github/actions/setup
-
       - name: Cache turborepo for iOS
         uses: actions/cache@v4
         with:
@@ -144,7 +127,8 @@ jobs:
 
       - name: Check turborepo cache for iOS
         run: |
-          TURBO_CACHE_STATUS=$(node -p "($(npx turbo run build:ios --cache-dir="${{ env.TURBO_CACHE_DIR }}" --dry=json)).tasks.find(t => t.task === 'build:ios').cache.status")
+          npx turbo run build:ios --cache-dir="${{ env.TURBO_CACHE_DIR }}" --dry=json > turbo_ios.json || echo "{}" > turbo_ios.json
+          TURBO_CACHE_STATUS=$(node -p "const fs=require('fs'); const data=JSON.parse(fs.readFileSync('turbo_ios.json')); data.tasks?.find(t => t.task === 'build:ios')?.cache?.status || 'MISS'")
           if [[ $TURBO_CACHE_STATUS == "HIT" ]]; then
             echo "turbo_cache_hit=1" >> $GITHUB_ENV
           fi

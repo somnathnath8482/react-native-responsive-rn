@@ -4,6 +4,7 @@
   "description": "Minimal responsive utility for React Native using breakpoint-based values (r + t).",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
+  "packageManager": "npm@11.6.2",
   "exports": {
     ".": {
       "source": "./src/index.ts",
@@ -73,6 +74,7 @@
     "react-native": "0.83.6",
     "react-native-builder-bob": "^0.41.0",
     "release-it": "^19.2.4",
+    "turbo": "^2.9.9",
     "typescript": "^6.0.2"
   },
   "peerDependencies": {

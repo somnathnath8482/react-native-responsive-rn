@@ -6,6 +6,9 @@ pre-commit:
       glob: "*.{js,ts,jsx,tsx}"
       run: npx eslint {staged_files}
 
+      glob: "*.{test.js,test.ts,test.jsx,test.tsx}"
+      run: npm test
+
     types:
       glob: "*.{js,ts, jsx, tsx}"
       run: npx tsc

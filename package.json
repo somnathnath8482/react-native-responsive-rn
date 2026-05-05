@@ -96,5 +96,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "eslint-plugin-ft-flow": "^3.0.11"
   }
 }

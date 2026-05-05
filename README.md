@@ -1,37 +1,105 @@
 # react-native-responsive-rn
 
-This size unit scales with the screen size. It can help Android developers with supporting multiple screens.with supporting multiple screens.
+Minimal responsive utility for React Native using breakpoint-based values.
+
+---
+
+## Features
+
+* Breakpoint-based responsive values
+* Mobile-first fallback
+* Simple API (`r` and `t`)
+* Works with rotation and screen resize
+* Strict TypeScript support
+
+---
 
 ## Installation
 
-
-```sh
+```bash
 npm install react-native-responsive-rn
 ```
 
+---
 
 ## Usage
 
+### Spacing / Layout
 
-```js
-import { multiply } from 'react-native-responsive-rn';
+```ts
+import { useR } from 'react-native-responsive-rn';
 
-// ...
+const r = useR();
 
-const result = multiply(3, 7);
+<View style={{ padding: r({ base: 10, md: 20 }) }} />
 ```
 
+---
 
-## Contributing
+### Typography
 
-- [Development workflow](CONTRIBUTING.md#development-workflow)
-- [Sending a pull request](CONTRIBUTING.md#sending-a-pull-request)
-- [Code of conduct](CODE_OF_CONDUCT.md)
+```ts
+import { useT } from 'react-native-responsive-rn';
+
+const t = useT();
+
+<Text style={t({ size: { base: 12, md: 16 }, line: 1.4 })}>
+  Hello
+</Text>
+```
+
+---
+
+### Responsive Info
+
+```ts
+import { useResponsive } from 'react-native-responsive-rn';
+
+const { width, breakpoint, isTablet } = useResponsive();
+```
+
+---
+
+## Default Breakpoints
+
+```ts
+{
+  xs: 0,
+  sm: 360,
+  md: 600,
+  lg: 768,
+  xl: 1024
+}
+```
+
+---
+
+## Custom Breakpoints
+
+```ts
+import { setConfig } from 'react-native-responsive-rn';
+
+setConfig({
+  breakpoints: {
+    xs: 0,
+    sm: 400,
+    md: 700,
+    lg: 900,
+    xl: 1200,
+  },
+});
+```
+
+---
+
+## Philosophy
+
+* No blind scaling (like SDP)
+* Responsive by breakpoints
+* Minimal and predictable
+
+---
 
 ## License
 
 MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

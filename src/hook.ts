@@ -1,5 +1,5 @@
-import { useWindowDimensions } from 'react-native';
-import { getBreakpoint } from './resolve';
+import { useWindowDimensions } from "react-native";
+import { getBreakpoint } from "./resolve";
 
 export const useResponsive = () => {
   const { width, height } = useWindowDimensions();

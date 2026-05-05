@@ -1,4 +1,4 @@
-import { BREAKPOINTS } from './breakpoints';
+import { BREAKPOINTS } from "./breakpoints";
 
 let config = {
   breakpoints: BREAKPOINTS,

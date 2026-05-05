@@ -1,5 +1,5 @@
-import type { TypographyInput } from './types';
-import { useR } from './r';
+import type { TypographyInput } from "./types";
+import { useR } from "./r";
 
 export const useT = () => {
   const r = useR();

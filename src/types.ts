@@ -1,4 +1,4 @@
-export type BreakpointKey = 'base' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type BreakpointKey = "base" | "xs" | "sm" | "md" | "lg" | "xl";
 
 export type ResponsiveValue = {
   base: number;

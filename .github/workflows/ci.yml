@@ -87,7 +87,7 @@ jobs:
 
       - name: Prebuild expo app for Android
         if: env.turbo_cache_hit != 1
-        run: npx expo prebuild --platform android
+        run: npx expo prebuild --platform android --working-directory example
 
       - name: Cache Gradle
         if: env.turbo_cache_hit != 1
@@ -141,7 +141,7 @@ jobs:
 
       - name: Prebuild expo app for iOS
         if: env.turbo_cache_hit != 1
-        run: npx expo prebuild --platform ios
+        run: npx expo prebuild --platform ios --working-directory example
 
       - name: Build example for iOS
         run: npx turbo run build:ios --cache-dir="${{ env.TURBO_CACHE_DIR }}"

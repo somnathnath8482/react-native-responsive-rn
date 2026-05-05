@@ -1,6 +1,6 @@
 {
   "name": "react-native-responsive-rn",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Minimal responsive utility for React Native using breakpoint-based values (r + t).",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
